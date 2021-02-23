@@ -25,6 +25,11 @@
     <link href="{{asset('assets/css/style.bundle.css')}}" rel="stylesheet" type="text/css" />
 
     <link rel="shortcut icon" href="{{asset('assets/media/logos/favicon.ico')}}" />
+    <style>
+        .text-muted{
+            color:#fd3995;
+        }
+    </style>
 </head>
 
 <!-- end::Head -->

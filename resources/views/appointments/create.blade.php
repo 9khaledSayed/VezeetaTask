@@ -459,7 +459,7 @@ min="0"                                value="{{old('sunday_period')}}"
                 minuteStep: 1,
                 defaultTime: '',
                 showSeconds: false,
-                showMeridian: true
+                showMeridian: false
             });
         })
     </script>
