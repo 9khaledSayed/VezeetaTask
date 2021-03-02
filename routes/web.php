@@ -13,13 +13,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/doctors', 'DoctorController@index')->name('doctors.index');
-Route::get('/reservations/create', 'ReservationController@create')->name('reservations.create');
-Route::post('/reservations/', 'ReservationController@store')->name('reservations.store');
-Route::get('/appointments/', 'AppointmentController@index')->name('appointments.index');
-Route::get('/appointments/create', 'AppointmentController@create')->name('appointments.create');
-Route::post('/appointments/', 'AppointmentController@store')->name('appointments.store');
+Route::resource('/doctors', 'DoctorController');
+Route::resource('/reservations', 'ReservationController');
+Route::get('/appointments/', 'DoctorController@appointments')->name('appointments.index');
+
 
 Route::get('/', function () {
-    return view('welcome');
+    $doctor = \App\Doctor::get()->first();
+    return view('welcome', compact('doctor'));
 });

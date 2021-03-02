@@ -85,8 +85,8 @@
                 </div>
 
                 <div class="links">
-                    <a href="{{route('appointments.create')}}">Add Your Appointments</a>
-                    <a href="{{route('doctors.index')}}">View Doctors</a>
+                    <a href="{{route('doctors.index')}}">Continue As Customer</a>
+                    <a href="{{route('doctors.edit', $doctor->id)}}">Continue As Doctor</a>
             </div>
         </div>
     </body>

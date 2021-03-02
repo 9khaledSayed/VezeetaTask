@@ -143,16 +143,25 @@ function viewAppointmentIntervalModal(dateStr){
         success : function (response) {
             var intervalBody = $("#intervalBody");
             intervalBody.empty()
-            $.each(response , function (key, value) {
-                var status = value.available ? 'available' : 'unavailable'
-                var statusClass = value.available ? 'success' : 'danger'
+            if(response.length === 0){
                 intervalBody.append('\
                                <tr>\
-                                   <td class=".intervalCel">'+ value.interval + '</td>\
+                                   <td colspan="2" class="kt-font-danger">There is no appointments in this day</td>\
+                               </tr>\
+                               ');
+            }else {
+                $.each(response , function (key, value) {
+                    var status = value.available ? 'available' : 'unavailable'
+                    var statusClass = value.available ? 'success' : 'danger'
+                    intervalBody.append('\
+                               <tr>\
+                                   <td class=".intervalCel" style="cursor: pointer">'+ value.interval + '</td>\
                                    <td class="kt-font-' + statusClass + '">' + status + '</td>\
                                </tr>\
                                ');
-            });
+                });
+            }
+
             swal.close();
             $("#kt_modal_1").modal('show');
             $("#modalTitle").text(dateStr)
