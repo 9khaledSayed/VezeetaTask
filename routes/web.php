@@ -13,8 +13,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::resource('/doctors', 'DoctorController');
-Route::resource('/reservations', 'ReservationController');
+Route::resource('/doctors', 'DoctorController')->except(['create', 'store', 'show', 'delete']);
+Route::resource('/reservations', 'ReservationController')->except(['create', 'show', 'delete']);
 Route::get('/appointments/', 'DoctorController@appointments')->name('appointments.index');
 
 

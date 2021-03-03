@@ -14,7 +14,7 @@
                 <a href="#" class="">
                 </a>
                 <a href="/" class="btn btn-secondary">
-                    {{__('Back')}}
+                    {{__('Back To Home')}}
                 </a>
             </div>
         </div>

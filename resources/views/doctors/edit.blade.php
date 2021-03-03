@@ -13,22 +13,23 @@
             <div class="kt-subheader__toolbar">
                 <button type="submit" id="submitBtn" class="btn btn-primary">Submit</button>
                 <a href="/" class="btn btn-secondary">
-                    {{__('Back')}}
+                    {{__('Back To Home')}}
                 </a>
             </div>
         </div>
     </div>
-    @if(session('success'))
-        <div class="alert alert-solid-success alert-bold fade show kt-margin-t-20 kt-margin-b-40" role="alert">
-            <div class="alert-icon"><i class="fa fa-check-circle"></i></div>
-            <div class="alert-text">{{__('Changes Has Been Saved Successfully !')}}</div>
-            <div class="alert-close">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true"><i class="la la-close"></i></span>
-                </button>
+
+        @if(session('success'))
+            <div class="alert alert-solid-success alert-bold fade show kt-margin-t-20 kt-margin-b-40" role="alert">
+                <div class="alert-icon"><i class="fa fa-check-circle"></i></div>
+                <div class="alert-text">{{__('Changes Has Been Saved Successfully !')}}</div>
+                <div class="alert-close">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true"><i class="la la-close"></i></span>
+                    </button>
+                </div>
             </div>
-        </div>
-    @endif
+        @endif
 
         <form id="profileForm" class="" action="{{route('doctors.update', $doctor)}}" method="post" enctype="multipart/form-data">
             @method('put')
@@ -362,7 +363,7 @@
                                     <div class="col-lg-2">
                                         <div class="kt-radio-inline">
                                             <label class="kt-checkbox kt-checkbox--success">
-                                                <input type="checkbox" name="tuesday" @if(old('tuesday') ?? $doctor->tuesday_period) checked @endif> Tuesday
+                                                <input type="checkbox" name="tuesday" @if(old('tuesday') ?? $doctor->tuesday) checked @endif> Tuesday
                                                 <span></span>
                                             </label>
                                         </div>
@@ -373,7 +374,7 @@
                                                 <input class="form-control @error('tuesday_from') is-invalid @enderror timeInput"
                                                        readonly
                                                        name="tuesday_from"
-                                                       value="{{old('tuesday_from') ?? $doctor->tuesday_period}}"
+                                                       value="{{old('tuesday_from') ?? $doctor->tuesday_from}}"
                                                        placeholder="Select time"
                                                        type="text" />
                                                 <div class="input-group-append">
@@ -393,7 +394,7 @@
                                                 <input class="form-control @error('tuesday_to') is-invalid @enderror timeInput"
                                                        readonly
                                                        name="tuesday_to"
-                                                       value="{{old('tuesday_to') ?? $doctor->tuesday_period}}"
+                                                       value="{{old('tuesday_to') ?? $doctor->tuesday_to}}"
                                                        placeholder="Select time"
                                                        type="text" />
                                                 <div class="input-group-append">
@@ -422,7 +423,7 @@
                                         <div class="kt-radio-inline">
                                             <label class="kt-checkbox kt-checkbox--success">
                                                 <input type="checkbox"
-                                                       name="wednesday" @if(old('wednesday') ?? $doctor->wednesday_period) checked @endif> Wednesday
+                                                       name="wednesday" @if(old('wednesday') ?? $doctor->wednesday) checked @endif> Wednesday
                                                 <span></span>
                                             </label>
                                         </div>
@@ -433,7 +434,7 @@
                                                 <input class="form-control @error('wednesday_from') is-invalid @enderror timeInput"
                                                        readonly
                                                        name="wednesday_from"
-                                                       value="{{old('wednesday_from') ?? $doctor->wednesday_period}}"
+                                                       value="{{old('wednesday_from') ?? $doctor->wednesday_from}}"
                                                        placeholder="Select time"
                                                        type="text" />
                                                 <div class="input-group-append">
@@ -452,7 +453,7 @@
                                             <div class="input-group timepicker">
                                                 <input class="form-control @error('wednesday_to') is-invalid @enderror timeInput"
                                                        readonly
-                                                       value="{{old('wednesday_to') ?? $doctor->wednesday_period}}"
+                                                       value="{{old('wednesday_to') ?? $doctor->wednesday_to}}"
                                                        name="wednesday_to"
                                                        placeholder="Select time"
                                                        type="text" />
@@ -481,7 +482,7 @@
                                     <div class="col-lg-2">
                                         <div class="kt-radio-inline">
                                             <label class="kt-checkbox kt-checkbox--success">
-                                                <input type="checkbox" name="thursday" @if(old('thursday')  ?? $doctor->thursday_period) checked @endif> Thursday
+                                                <input type="checkbox" name="thursday" @if(old('thursday')  ?? $doctor->thursday) checked @endif> Thursday
                                                 <span></span>
                                             </label>
                                         </div>
@@ -492,7 +493,7 @@
                                                 <input class="form-control @error('thursday_from') is-invalid @enderror timeInput"
                                                        readonly
                                                        name="thursday_from"
-                                                       value="{{old('thursday_from')  ?? $doctor->thursday_period}}"
+                                                       value="{{old('thursday_from')  ?? $doctor->thursday_from}}"
                                                        placeholder="Select time"
                                                        type="text" />
                                                 <div class="input-group-append">
@@ -512,7 +513,7 @@
                                                 <input class="form-control @error('thursday_to') is-invalid @enderror timeInput"
                                                        readonly
                                                        name="thursday_to"
-                                                       value="{{old('thursday_to')  ?? $doctor->thursday_period}}"
+                                                       value="{{old('thursday_to')  ?? $doctor->thursday_to}}"
                                                        placeholder="Select time"
                                                        type="text" />
                                                 <div class="input-group-append">
@@ -540,7 +541,7 @@
                                     <div class="col-lg-2">
                                         <div class="kt-radio-inline">
                                             <label class="kt-checkbox kt-checkbox--success">
-                                                <input type="checkbox" id="friday" name="friday" @if(old('friday') ?? $doctor->friday_period) checked @endif> Friday
+                                                <input type="checkbox" id="friday" name="friday" @if(old('friday') ?? $doctor->friday) checked @endif> Friday
                                                 <span></span>
                                             </label>
                                         </div>
@@ -550,7 +551,7 @@
                                             <div class="input-group timepicker">
                                                 <input class="form-control @error('friday_from') is-invalid @enderror timeInput"
                                                        readonly
-                                                       value="{{old('friday_from') ?? $doctor->friday_period}}"
+                                                       value="{{old('friday_from') ?? $doctor->friday_from}}"
                                                        name="friday_from"
                                                        placeholder="Select time"
                                                        type="text" />
@@ -570,7 +571,7 @@
                                             <div class="input-group timepicker">
                                                 <input class="form-control @error('friday_to') is-invalid @enderror timeInput"
                                                        readonly
-                                                       value="{{old('friday_to') ?? $doctor->friday_period}}"
+                                                       value="{{old('friday_to') ?? $doctor->friday_to}}"
                                                        name="friday_to"
                                                        placeholder="Select time"
                                                        type="text" />
