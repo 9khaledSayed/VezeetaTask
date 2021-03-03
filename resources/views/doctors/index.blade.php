@@ -43,6 +43,7 @@
                                     <a href="#"><i class="flaticon2-new-email"></i>{{$doctor->email}}</a>
                                     <a href="#"><i class="flaticon2-calendar-3"></i>{{$doctor->specialization}} </a>
                                     <a href="#"><i class="flaticon2-placeholder"></i>{{$doctor->address}}</a>
+                                    <a href="#"><i class="fa fa-money-bill"></i>{{$doctor->price}} EGP</a>
                                 </div>
                                 <div class="kt-widget__info">
                                     <div class="kt-widget__desc">
