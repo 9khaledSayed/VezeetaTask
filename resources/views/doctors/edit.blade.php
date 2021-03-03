@@ -306,7 +306,8 @@
                                     <div class="col-lg-2">
                                         <div class="kt-radio-inline">
                                             <label class="kt-checkbox kt-checkbox--success">
-                                                <input type="checkbox" value="{{old('monday') ?? $doctor->monday}}" name="monday" @if(old('monday')) checked @endif> Monday
+                                                <input type="checkbox" value="{{old('monday') ?? $doctor->monday}}" name="monday"
+                                                       @if(old('monday') ?? $doctor->monday) checked @endif> Monday
                                                 <span></span>
                                             </label>
                                         </div>
