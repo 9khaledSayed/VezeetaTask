@@ -12,7 +12,7 @@ class Doctor extends Model
         'name' => ['required', 'string:191'],
         'email' => 'sometimes|required|email',
         'photo' => 'nullable|image|mimes:jpeg,png,jpg',
-        "phone" => "required|numeric",
+        "phone" => "required|numeric|regex:/(01)[0-9]{9}/",
         "price" => "required|numeric|min:0",
         "specialization" => "required",
         "address" => "required",
