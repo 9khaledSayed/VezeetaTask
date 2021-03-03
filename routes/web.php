@@ -22,3 +22,10 @@ Route::get('/', function () {
     $doctor = \App\Doctor::get()->first();
     return view('welcome', compact('doctor'));
 });
+
+Route::get('/link', function () {
+    $targetFolder = $_SERVER['DOCUMENT_ROOT'].'/storage/app/public';
+    $linkFolder = $_SERVER['DOCUMENT_ROOT'].'/public/storage';
+    symlink($targetFolder,$linkFolder);
+    echo 'Symlink process successfully completed';
+});
