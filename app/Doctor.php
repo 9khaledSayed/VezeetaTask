@@ -9,11 +9,11 @@ class Doctor extends Model
     protected $guarded = [];
 
     public static $rules = [
-        'name' => ['required', 'string:255'],
+        'name' => ['required', 'string:191'],
         'email' => 'sometimes|required|email',
         'photo' => 'nullable|image|mimes:jpeg,png,jpg',
         "phone" => "required",
-        "price" => "required",
+        "price" => "required|numeric|min:0",
         "specialization" => "required",
         "address" => "required",
         "saturday" => "boolean",
