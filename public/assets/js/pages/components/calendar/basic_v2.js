@@ -69,7 +69,10 @@ var KTCalendarBasic = function() {
                     var eventDay = $(".fc-day");
 
                     $.each( eventDay, function( key, value ) {
-                        value.innerHTML = "<button class='btn-primary d-flex justify-content-center'>Click Here</button>";
+                        $(value).css('cursor', 'pointer');
+
+                        // value.innerHTML = "<button class='btn-primary d-flex justify-content-center'>Click Here</button>";
+                        value.innerHTML = "<button type=\"button\" class=\"btn btn-sm btn-brand btn-elevate btn-pill\" style='cursor: pointer'><i class=\"la la-search\"></i></button>";
                     });
                 },
                 dateClick: function(info) {

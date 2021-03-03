@@ -12,7 +12,7 @@
             </div>
             <div class="kt-subheader__toolbar">
                 <a href="/" class="btn btn-secondary">
-                    {{__('Back')}}
+                    {{__('Back To Home')}}
                 </a>
             </div>
         </div>
@@ -29,12 +29,15 @@
                             <div class="kt-widget__pic kt-widget__pic--danger kt-font-danger kt-font-boldest kt-font-light kt-hidden">
                                 JM
                             </div>
-                            <div class="kt-widget__content">
+                            <div class="kt-widget__content" >
                                 <div class="kt-widget__head">
                                     <a href="#" class="kt-widget__username">
                                         {{$doctor->name}}
                                         <i class="flaticon2-correct kt-font-success"></i>
                                     </a>
+                                    <div class="kt-widget__action">
+                                        <a href="{{route('reservations.index')}}" class="btn btn-outline-brand btn-elevate btn-pill d-flex align-items-center"><i class="flaticon-layers"></i> All Reservations</a>
+                                    </div>
                                 </div>
                                 <div class="kt-widget__subhead">
                                     <a href="#"><i class="flaticon2-new-email"></i>{{$doctor->email}}</a>
@@ -117,5 +120,5 @@
 @endsection
 
 @push('scripts')
-    <script src="{{asset('assets/js/pages/components/calendar/basic.js')}}" type="text/javascript"></script>
+    <script src="{{asset('assets/js/pages/components/calendar/basic_v2.js')}}" type="text/javascript"></script>
 @endpush
