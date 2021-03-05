@@ -73,14 +73,31 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return Doctor::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'phone' => $data['phone'],
-            'specialization' => $data['specialization'],
-            'address' => $data['address'],
-            'password' => $data['password'],
-        ]);
+//        $doctor =  Doctor::create([
+//            'name' => $data['name'],
+//            'email' => $data['email'],
+//            'phone' => $data['phone'],
+//            'specialization' => $data['specialization'],
+//            'address' => $data['address'],
+//            'password' => $data['password'],
+//        ]);
+//        auth()->guard('doctor')->login($doctor);
+//        return redirect()->intended($this->redirectTo);
+    }
+
+    protected function createDoctor(Request $request)
+    {
+        $doctorValidationRules = Doctor::$rules;
+        $doctor =  Doctor::create($this->validate($request,[
+            'name' => $doctorValidationRules['name'],
+            'email' => $doctorValidationRules['email'],
+            'phone' => $doctorValidationRules['phone'],
+            'specialization' => $doctorValidationRules['specialization'],
+            'address' => $doctorValidationRules['address'],
+            'password' => $doctorValidationRules['password'],
+        ]));
+        auth()->guard('doctor')->login($doctor);
+        return redirect()->intended($this->redirectTo);
     }
 
     public function showCustomerRegisterForm()
@@ -91,6 +108,7 @@ class RegisterController extends Controller
     protected function createCustomer(Request $request)
     {
         $customer = Customer::create($this->validate($request, Customer::$rules));
+        auth()->guard('customer')->login($customer);
         return redirect()->intended($this->redirectTo);
     }
 }

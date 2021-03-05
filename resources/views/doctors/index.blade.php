@@ -267,44 +267,69 @@
             });
 
             $(document).on('click', '.time_item' ,function () {
-                console.log()
+
                 var timeItem = $(this);
-                $.ajax({
-                    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                    url:'/reservations',
-                    method : 'post',
-                    data: {
-                        'time' : $(this).text(),
-                        'date' : $(this).attr('data-date'),
-                        'doctor_id' : $(this).attr('data-doctorID'),
-                    },
-                    success:function (res) {
-                        if(res.statue === '0'){
-                            swal.fire({
-                                title: "This Time Already Taken!",
-                                type: 'error',
-                                buttonsStyling: false,
-                                confirmButtonText: "OK",
-                                confirmButtonClass: "btn btn-sm btn-bold btn-brand",
-                            });
-                        }else{
-                            swal.fire({
-                                title: "Done!",
-                                type: 'success',
-                                buttonsStyling: false,
-                                confirmButtonText: "OK",
-                                confirmButtonClass: "btn btn-sm btn-bold btn-brand",
-                            });
-                            timeItem.css({
-                                'color':'#aaa',
-                                'text-decoration':'line-through',
-                            })
 
-                        }
+                swal.fire({
+                    buttonsStyling: false,
 
-                    },
+                    html: "Are you sure to choosing this time?",
+                    type: "info",
 
+                    confirmButtonText: "Yes, sure!",
+                    confirmButtonClass: "btn btn-sm btn-bold btn-brand",
+
+                    showCancelButton: true,
+                    cancelButtonText: "No, cancel",
+                    cancelButtonClass: "btn btn-sm btn-bold btn-default"
+                }).then(function (result) {
+                    if (result.value) {
+                        swal.fire({
+                            title: 'Loading...',
+                            onOpen: function () {
+                                swal.showLoading();
+                            }
+                        });
+                        $.ajax({
+                            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                            url:'/reservations',
+                            method : 'post',
+                            data: {
+                                'time' : timeItem.text(),
+                                'date' : timeItem.attr('data-date'),
+                                'doctor_id' : timeItem.attr('data-doctorID'),
+                            },
+                            success:function (res) {
+                                if(res.statue === '0'){
+                                    swal.fire({
+                                        title: "This Time Already Taken!",
+                                        type: 'error',
+                                        buttonsStyling: false,
+                                        confirmButtonText: "OK",
+                                        confirmButtonClass: "btn btn-sm btn-bold btn-brand",
+                                    });
+                                }else{
+                                    swal.fire({
+                                        title: "Done!",
+                                        type: 'success',
+                                        buttonsStyling: false,
+                                        confirmButtonText: "OK",
+                                        confirmButtonClass: "btn btn-sm btn-bold btn-brand",
+                                    });
+                                    timeItem.css({
+                                        'color':'#aaa',
+                                        'text-decoration':'line-through',
+                                    })
+
+                                }
+
+                            },
+
+                        });
+                    }
                 });
+
+
             })
 
 

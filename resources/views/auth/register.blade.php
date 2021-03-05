@@ -23,7 +23,7 @@
                 <h3> {{ __('Register')}}</h3>
             </div>
             <!--begin::Form-->
-            <form method="POST" action='{{ route("register") }}' aria-label="{{ __('Register') }}">
+            <form method="POST" action='{{ route("register.doctor") }}' aria-label="{{ __('Register') }}">
 
             @csrf
                 <div class="form-group row">

@@ -19,7 +19,7 @@ class Doctor extends Authenticatable
 
     public static $rules = [
         'name' => ['required', 'string:191'],
-        'email' => 'sometimes|required|email',
+        'email' => 'sometimes|required|email|unique:doctors',
         'photo' => 'nullable|image|mimes:jpeg,png,jpg',
         "phone" => "required|numeric|regex:/(01)[0-9]{9}/",
         "price" => "required|numeric|min:0",

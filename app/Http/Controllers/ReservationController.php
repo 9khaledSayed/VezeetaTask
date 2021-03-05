@@ -12,8 +12,15 @@ class ReservationController extends Controller
 {
     public function index(Request $request)
     {
+
+
         if ($request->ajax()){
-            $reservations = Reservation::get()->map(function ($reservation){
+            if (auth()->guard('doctor')->check()){
+                $reservations = Reservation::where('doctor_id', auth()->user()->id)->get();
+            }else{
+                $reservations = Reservation::where('customer_id', auth()->user()->id)->get();
+            }
+            $reservations = $reservations->map(function ($reservation){
                return [
                  'doctor' => $reservation->doctor->name,
                  'customer' => $reservation->customer->name ,

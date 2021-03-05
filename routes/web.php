@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 Auth::routes();
 Route::get('/register/customer', 'Auth\RegisterController@showCustomerRegisterForm')->name('');
 Route::post('/register/customer', 'Auth\RegisterController@createCustomer')->name('register.customer');
+Route::post('/register/doctor', 'Auth\RegisterController@createDoctor')->name('register.doctor');
 
 
 Route::middleware('auth:doctor,customer')->group(function (){

@@ -102,7 +102,7 @@
                                     </ul>
                                 </div>
                             </li>
-                            <li class="kt-menu__item  kt-menu__item--active " aria-haspopup="true"><a href="{{route('reservations.index')}}" class="kt-menu__link "><span class="kt-menu__link-text">All Reservations</span></a></li>
+                            <li class="kt-menu__item  kt-menu__item--active " aria-haspopup="true"><a href="{{route('reservations.index')}}" class="kt-menu__link "><span class="kt-menu__link-text">My Reservations</span></a></li>
                         </ul>
                     </div>
                 </div>
