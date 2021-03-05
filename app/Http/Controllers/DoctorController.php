@@ -10,21 +10,28 @@ use Illuminate\Http\Request;
 class DoctorController extends Controller
 {
 
+//    public function __construct()
+//    {
+//        $this->middleware('');
+//    }
+
     public function index()
     {
-        $doctor = Doctor::get()->first();
-        return view('doctors.index', compact('doctor'));
+        $doctors = Doctor::get();
+        return view('doctors.index', compact('doctors'));
     }
 
 
     public function edit(Doctor $doctor)
     {
+        $this->authorize('update-doctor-information');
         return view('doctors.edit', compact('doctor'));
     }
 
 
     public function update(Request $request, Doctor $doctor)
     {
+        $this->authorize('update-doctor-information');
         $doctor->update($this->validator($request));
 
         if(isset($request->photo)){
@@ -38,29 +45,89 @@ class DoctorController extends Controller
         return redirect()->back()->with('success', 'true');
     }
 
-    public function appointments(Request $request)
+    public function appointments(Doctor $doctor, Request $request)
     {
-        $date = Carbon::createFromFormat('Y-m-d', $request->date);
-        $dayName = lcfirst($date->format('l'));
-        $appointments = Doctor::get([$dayName, $dayName . '_from', $dayName . '_to', $dayName .'_period'])->first();
-        $timeIntervals = [];
-        if($appointments->{$dayName}){
+//        $this->authorize('make-reservation');
+        $cards = [];
+        if(isset($request->next_to)){
+            $nextTo = Carbon::createFromFormat('Y-m-d', $request->next_to);
+            for ($i = 1; $i <= 3; $i++){
+                $nextTo->addDays(1);
+                $dateFormat = $nextTo->format('l d/m');
 
-            $startTime = Carbon::createFromTimeString($appointments->{$dayName . '_from'});
-            $endTime = Carbon::createFromTimeString($appointments->{$dayName . '_to'});
-            $period = $appointments->{$dayName .'_period'};
+                $dayName = lcfirst($nextTo->format('l'));
+                $appointments = [];
+                if($doctor->{$dayName}){
 
-            while ($startTime->lte($endTime)){
-                array_push($timeIntervals, [
-                    'interval' =>  $startTime->format('h:i A'),
-                    'available' =>  Reservation::where([['date', '=',  $request->date], ['time', '=' ,  $startTime]])->doesntExist(),
+                    $startTime = Carbon::createFromTimeString($doctor->{$dayName . '_from'});
+                    $endTime = Carbon::createFromTimeString($doctor->{$dayName . '_to'});
+                    $period = $doctor->{$dayName .'_period'};
+
+                    while ($startTime->lte($endTime)){
+                        array_push($appointments, [
+                            'interval' =>  $startTime->format('h:i A'),
+                            'available' =>  Reservation::where([['date', '=',  $nextTo->format('Y-m-d')], ['time', '=' ,  $startTime]])->doesntExist(),
+                        ]);
+                        $startTime->addMinutes($period);
+                    }
+                }
+
+                if($nextTo->format('Y-m-d') == Carbon::today()->format('Y-m-d')){
+                    $dateFormat = 'Today';
+                }elseif ($nextTo->format('Y-m-d') == Carbon::tomorrow()->format('Y-m-d')){
+                    $dateFormat = 'Tomorrow';
+                }
+
+                array_push($cards, [
+                    'doctor_id' => $doctor->id,
+                    'date_format' => $dateFormat,
+                    'date_value' => $nextTo->format('Y-m-d'),
+                    'appointments_list' => $appointments
                 ]);
-                $startTime->addMinutes($period);
             }
-        }
-        return response()->json($timeIntervals);
+        }elseif (isset($request->previous_to)){
+            $previousTo = Carbon::createFromFormat('Y-m-d', $request->previous_to);
+            for ($i = 1; $i <= 3; $i++){
+                $previousTo->subDays(1);
+                $dateFormat = $previousTo->format('l d/m');
+                $dayName = lcfirst($previousTo->format('l'));
+                $appointments = [];
+                if($doctor->{$dayName}){
 
-//        $reservations = Reservation::whereDate('date', $request->date)->get();
+                    $startTime = Carbon::createFromTimeString($doctor->{$dayName . '_from'});
+                    $endTime = Carbon::createFromTimeString($doctor->{$dayName . '_to'});
+                    $period = $doctor->{$dayName .'_period'};
+
+                    while ($startTime->lte($endTime)){
+                        array_push($appointments, [
+                            'interval' =>  $startTime->format('h:i A'),
+                            'available' =>  Reservation::where([['date', '=',  $previousTo->format('Y-m-d')], ['time', '=' ,  $startTime->format('H:i:s')]])->doesntExist(),
+                        ]);
+                        $startTime->addMinutes($period);
+                    }
+                }
+
+                if($previousTo->format('Y-m-d') == Carbon::today()->format('Y-m-d')){
+                    $dateFormat = 'Today';
+                }elseif ($previousTo->format('Y-m-d') == Carbon::tomorrow()->format('Y-m-d')){
+                    $dateFormat = 'Tomorrow';
+                }
+
+                array_push($cards, [
+                    'doctor_id' => $doctor->id,
+                    'date_format' => $dateFormat,
+                    'date_value' => $previousTo->format('Y-m-d'),
+                    'appointments_list' => $appointments
+                ]);
+            }
+            $cards = array_reverse($cards);
+        }
+
+
+
+
+
+        return response()->json($cards);
     }
 
 
@@ -78,6 +145,7 @@ class DoctorController extends Controller
 
 
         $rules = Doctor::$rules;
+        unset($rules['password']);
         return $request->validate($rules);
     }
 }

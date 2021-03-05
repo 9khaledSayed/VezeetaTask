@@ -61,15 +61,15 @@ var KTDatatableLocalSortDemo = function() {
                     field: 'customer',
                     title: 'Customer',
                     textAlign: 'center',
-                }, {
-                    field: 'date',
-                    title: 'Date',
-                    textAlign: 'center',
                 },{
                     field: 'time',
                     title: 'Time',
                     textAlign: 'center',
 
+                }, {
+                    field: 'date',
+                    title: 'Date',
+                    textAlign: 'center',
                 }],
         });
 

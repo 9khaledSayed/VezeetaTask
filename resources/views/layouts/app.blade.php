@@ -1,45 +1,107 @@
 <!DOCTYPE html>
 
-<html lang="en">
+<html lang="{{App::getLocale()}}" @if(App::isLocale('ar'))dir="rtl"@endif>
 
 <!-- begin::Head -->
 <head>
-    <base href="">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta charset="utf-8" />
-    <title>Metronic | Dashboard</title>
-    <meta name="description" content="Latest updates and statistic charts">
+    <title>{{__('Cashuce')}}</title>
+    <meta name="description" content="Login page example">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="csrf-token" content="{{ csrf_token() }}" />
-    <!--begin::Fonts -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700|Roboto:300,400,500,600,700">
-
-    <!--end::Fonts -->
-
-    <!--begin::Page Vendors Styles(used by this page) -->
-    <link href="{{asset('assets/plugins/custom/fullcalendar/fullcalendar.bundle.css')}}" rel="stylesheet" type="text/css" />
-
-    <!--end::Page Vendors Styles -->
-
-    <!--begin::Global Theme Styles(used by all pages) -->
+    {{--    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700|Roboto:300,400,500,600,700">--}}
+    <link href="{{asset('assets/css/pages/login/login-1.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{asset('assets/plugins/global/plugins.bundle.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{asset('assets/css/style.bundle.css')}}" rel="stylesheet" type="text/css" />
-
     <link rel="shortcut icon" href="{{asset('assets/media/logos/favicon.ico')}}" />
+    <link href="{{asset('assets/style.css')}}" rel="stylesheet" type="text/css" />
+
     <style>
-        .text-muted{
-            color:#fd3995;
+        /* -----
+    SVG Icons - svgicons.sparkk.fr
+    ----- */
+
+        .svg-icon {
+            width: 1em;
+            height: 1em;
         }
 
-        .friday,
-        .saturday,
-        .sunday,
-        .monday,
-        .tuesday,
-        .thursday,
-        .wednesday
-        {
-            display: none;
+        .svg-icon path,
+        .svg-icon polygon,
+        .svg-icon rect {
+            fill: #4691f6;
         }
+
+        .svg-icon circle {
+            stroke: #4691f6;
+            stroke-width: 1;
+        }
+        @font-face {
+            font-family: Myriad Pro Regular;
+            src: url('{{ asset('fonts/MyriadPro-Regular.otf') }}');
+        }
+        @font-face {
+            font-family: DroidKufi Regular;
+            src: url('{{ asset('fonts/Droid.Arabic.Kufi_DownloadSoftware.iR_.ttf') }}');
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+
+        .required{
+            color: red;
+            font-size: 12px;
+            font-weight: 900;
+            margin: 4px;
+        }
+
+        @media print {
+            .print-mode {
+                color: #fff;
+                background-color: #343a40;
+                border-color: #454d55;
+            }
+            .btnprn,lab{
+                display: none;
+            }
+            #voucher{
+                transform: rotate(90deg);
+                margin-top: 380px;
+            }
+            @page {
+                padding: 20cm;
+            }
+
+        }
+
+        li
+        {
+            list-style-type:none;
+        }
+
+        .swal-footer {
+            text-align: center;
+        }
+
+        .swal-button--confirm {
+            background-color: #4962B3;
+            font-size: 12px;
+            border: 1px solid #3e549a;
+            text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.3);
+        }
+
+        .kt-login.kt-login--v1 .kt-login__wrapper .kt-login__body .kt-login__form {
+            width: 100%;
+            max-width: 541px;
+        }
+
+        @if(app()->getLocale() == 'ar')
+        .kt-login.kt-login--v1 .kt-login__wrapper .kt-login__body .kt-login__form .kt-login__options > a:not(:last-child) {
+            margin: 0 0 0 1.5rem;
+        }
+        @endif
     </style>
 </head>
 
@@ -49,100 +111,50 @@
 <body class="kt-quick-panel--right kt-demo-panel--right kt-offcanvas-panel--right kt-header--fixed kt-header-mobile--fixed kt-subheader--enabled kt-subheader--solid kt-aside--enabled kt-aside--fixed kt-aside--minimize kt-page--loading">
 
 <!-- begin:: Page -->
+<div class="kt-grid kt-grid--ver kt-grid--root kt-page">
+    <div class="kt-grid kt-grid--hor kt-grid--root  kt-login kt-login--v1" id="kt_login">
+        <div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--desktop kt-grid--ver-desktop kt-grid--hor-tablet-and-mobile">
 
-<!-- begin:: Header Mobile -->
-<div id="kt_header_mobile" class="kt-header-mobile  kt-header-mobile--fixed">
-    <div class="kt-header-mobile__logo">
-        <a href="/">
-            <img alt="Logo" src="{{asset('assets/media/logos/logo-6-sm.png')}}" />
-        </a>
-    </div>
-</div>
-<!-- end:: Header Mobile -->
-<div class="kt-grid kt-grid--hor kt-grid--root">
-    <div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--ver kt-page">
-
-
-        <div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor">
-
-            <!-- begin:: Header -->
-            <div id="kt_header" class="kt-header kt-grid kt-grid--ver ">
-
-                <!-- begin:: Aside -->
-                <div class="kt-header__brand kt-grid__item  " id="kt_header_brand">
-                    <div class="kt-header__brand-logo">
-                        <a href="/">
-                            <img alt="Logo" src="{{asset('assets/media/logos/logo-6.png')}}" />
-                        </a>
+            <!--begin::Aside-->
+            <div class="kt-grid__item kt-grid__item--order-tablet-and-mobile-2 kt-grid kt-grid--hor kt-login__aside" style="background-image: url({{asset('assets/media/bg/bg-4.jpg')}});">
+                <div class="kt-grid__item">
+                    <a href="#" class="kt-login__logo">
+                        <img src="{{asset('assets/media/logos/logo-4.png')}}">
+                    </a>
+                </div>
+                <div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--ver">
+                    <div class="kt-grid__item kt-grid__item--middle mx-auto" >
+                        <h1 class="kt-login__title">{{__('Vezeeta')}}</h1>
                     </div>
                 </div>
-
-                <!-- end:: Aside -->
-
-
-
-                <!-- begin: Header Menu -->
-                <div class="kt-header-menu-wrapper kt-grid__item kt-grid__item--fluid" id="kt_header_menu_wrapper">
-                    <div id="kt_header_menu" class="kt-header-menu kt-header-menu-mobile  kt-header-menu--layout-default ">
-                        <ul class="kt-menu__nav ">
-                            <li class="kt-menu__item  kt-menu__item--active " aria-haspopup="true"><a href="#" class="kt-menu__link "><span class="kt-menu__link-text">Vezeeta Task</span></a></li>
-                            <li class="kt-menu__item  kt-menu__item--active " aria-haspopup="true"><a href="{{route('reservations.index')}}" class="kt-menu__link "><span class="kt-menu__link-text">All Reservations</span></a></li>
-                        </ul>
-                    </div>
-                </div>
-
-                <!-- end: Header Menu -->
-
-
-            </div>
-
-            <!-- end:: Header -->
-            <div class="kt-content  kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor " id="kt_content">
-
-
-                <!-- begin:: Content -->
-                <div class="kt-container  kt-container--fluid  kt-grid__item kt-grid__item--fluid mt-5">
-
-                    <!--Begin::Dashboard 6-->
-
-                    <!--begin:: Widgets/Stats-->
-                    @yield('content')
-
-                    <!--end:: Widgets/Stats-->
-
-                    <!--End::Dashboard 6-->
-                </div>
-
-                <!-- end:: Content -->
-            </div>
-
-            <!-- begin:: Footer -->
-            <div class="kt-footer  kt-grid__item kt-grid kt-grid--desktop kt-grid--ver-desktop" id="kt_footer">
-                <div class="kt-container  kt-container--fluid ">
-                    <div class="kt-footer__copyright">
-                        2019&nbsp;&copy;&nbsp;<a href="http://keenthemes.com/metronic" target="_blank" class="kt-link">Keenthemes</a>
-                    </div>
-                    <div class="kt-footer__menu">
-                        <a href="http://keenthemes.com/metronic" target="_blank" class="kt-footer__menu-link kt-link">About</a>
-                        <a href="http://keenthemes.com/metronic" target="_blank" class="kt-footer__menu-link kt-link">Team</a>
-                        <a href="http://keenthemes.com/metronic" target="_blank" class="kt-footer__menu-link kt-link">Contact</a>
+                <div class="kt-grid__item">
+                    <div class="kt-login__info">
+                        <div class="kt-login__copyright">
+                            &copy 2018 Metronic
+                        </div>
+                        <div class="kt-login__menu">
+                            <a href="#" class="kt-link">Privacy</a>
+                            <a href="#" class="kt-link">Legal</a>
+                            <a href="#" class="kt-link">Contact</a>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- end:: Footer -->
+            <!--begin::Aside-->
+
+            <!--begin::Content-->
+            <div class="kt-grid__item kt-grid__item--fluid  kt-grid__item--order-tablet-and-mobile-1  kt-login__wrapper">
+
+                @yield('content')
+            </div>
+
+            <!--end::Content-->
         </div>
     </div>
 </div>
 
 <!-- end:: Page -->
-
-<!-- begin::Scrolltop -->
-<div id="kt_scrolltop" class="kt-scrolltop">
-    <i class="fa fa-arrow-up"></i>
-</div>
-
-<!-- end::Scrolltop -->
 
 <!-- begin::Global Config(global config for global JS sciprts) -->
 <script>
@@ -174,15 +186,10 @@
 
 <!--end::Global Theme Bundle -->
 
-<!--begin::Page Vendors(used by this page) -->
-<script src="{{asset('assets/plugins/custom/fullcalendar/fullcalendar.bundle.js')}}" type="text/javascript"></script>
-
-<!--end::Page Vendors -->
-
 <!--begin::Page Scripts(used by this page) -->
-{{--<script src="{{asset('assets/js/pages/dashboard.js')}}" type="text/javascript"></script>--}}
+<script src="{{asset('assets/js/pages/custom/login/login-1.js')}}" type="text/javascript"></script>
+<script src="{{asset('js/pages/globalScripts.js')}}" type="text/javascript"></script>
 
-@stack('scripts')
 <!--end::Page Scripts -->
 </body>
 

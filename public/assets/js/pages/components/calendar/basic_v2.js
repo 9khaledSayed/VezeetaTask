@@ -124,7 +124,8 @@ jQuery(document).ready(function() {
                         });
                     }
 
-                }
+                },
+
             });
         }
     })
@@ -157,11 +158,11 @@ function viewAppointmentIntervalModal(dateStr){
                     var status = value.available ? 'available' : 'unavailable'
                     var statusClass = value.available ? 'success' : 'danger'
                     intervalBody.append('\
-                               <tr>\
-                                   <td class=".intervalCel" style="cursor: pointer">'+ value.interval + '</td>\
-                                   <td class="kt-font-' + statusClass + '">' + status + '</td>\
-                               </tr>\
-                               ');
+                       <tr>\
+                           <td class=".intervalCel" style="cursor: pointer">'+ value.interval + '</td>\
+                           <td class="kt-font-' + statusClass + '">' + status + '</td>\
+                       </tr>\
+                   ');
                 });
             }
 
@@ -169,8 +170,17 @@ function viewAppointmentIntervalModal(dateStr){
             $("#kt_modal_1").modal('show');
             $("#modalTitle").text(dateStr)
         },
-        error : function (res) {
-            console.log('error');
+        error: function (err) {
+            let response = err.responseJSON;
+            let errors = '';
+            $.each(response.errors, function( index, value ) {
+                errors += value + '\n';
+            });
+            swal.fire({
+                title: response.message,
+                text: errors,
+                type: 'error'
+            });
         }
     })
 

@@ -12,10 +12,17 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Auth::routes();
+Route::get('/register/customer', 'Auth\RegisterController@showCustomerRegisterForm')->name('');
+Route::post('/register/customer', 'Auth\RegisterController@createCustomer')->name('register.customer');
 
-Route::resource('/doctors', 'DoctorController')->except(['create', 'store', 'show', 'delete']);
-Route::resource('/reservations', 'ReservationController')->except(['create', 'show', 'delete']);
-Route::get('/appointments/', 'DoctorController@appointments')->name('appointments.index');
+
+Route::middleware('auth:doctor,customer')->group(function (){
+    Route::resource('/doctors', 'DoctorController')->except(['create', 'store', 'show', 'delete']);
+    Route::resource('/reservations', 'ReservationController')->except(['create', 'show', 'delete']);
+//    Route::get('/appointments/', 'DoctorController@appointments')->name('appointments.index');
+    Route::get('/doctors/{doctor}/appointments', 'DoctorController@appointments');
+});
 
 
 Route::get('/', function () {
@@ -23,9 +30,10 @@ Route::get('/', function () {
     return view('welcome', compact('doctor'));
 });
 
-Route::get('/link', function () {
-    $targetFolder = $_SERVER['DOCUMENT_ROOT'].'/storage/app/public';
-    $linkFolder = $_SERVER['DOCUMENT_ROOT'].'/public/storage';
-    symlink($targetFolder,$linkFolder);
-    echo 'Symlink process successfully completed';
+
+Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('foo', function (){
+    Auth::logout();
+    return redirect('/login');
 });

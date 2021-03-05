@@ -16,7 +16,7 @@ class CreateReservationsTable extends Migration
         Schema::create('reservations', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('doctor_id');
-            $table->string('customer_name');
+            $table->unsignedBigInteger('customer_id');
             $table->date('date');
             $table->time('time');
 
@@ -24,6 +24,12 @@ class CreateReservationsTable extends Migration
                 ->references('id')
                 ->on('doctors')
                 ->onDelete('cascade');
+
+            $table->foreign('customer_id')
+                ->references('id')
+                ->on('customers')
+                ->onDelete('cascade');
+
             $table->timestamps();
         });
     }

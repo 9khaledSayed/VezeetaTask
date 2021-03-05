@@ -2,11 +2,20 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\Hash;
 
-class Doctor extends Model
+class Doctor extends Authenticatable
 {
+
+    protected $guard = 'doctor';
+
     protected $guarded = [];
+
+    protected $hidden = [
+        'password', 'remember_token',
+    ];
 
     public static $rules = [
         'name' => ['required', 'string:191'],
@@ -15,6 +24,8 @@ class Doctor extends Model
         "phone" => "required|numeric|regex:/(01)[0-9]{9}/",
         "price" => "required|numeric|min:0",
         "specialization" => "required",
+        "password" => ['required', 'string', 'min:8', 'confirmed'],
+
         "address" => "required",
         "saturday" => "boolean",
         "saturday_from" => "required_if:saturday,true|exclude_if:saturday,false|before:saturday_to",
@@ -45,4 +56,53 @@ class Doctor extends Model
         "friday_to" => "required_if:friday,true|exclude_if:friday,false",
         "friday_period" => "required_if:friday,true|exclude_if:friday,false|numeric",
     ];
+
+    public function setPasswordAttribute($password)
+    {
+        $this->attributes['password'] = Hash::make($password);
+    }
+
+    public function initialCards()
+    {
+        $cards = [];
+        $today = Carbon::today();
+        $x = 0;
+        for ($i = 0; $i <= 2; $i++){
+            $today->addDays($x);
+            $dateFormat = $today->format('l d/m');
+
+            $dayName = lcfirst($today->format('l'));
+            $appointments = [];
+            if($this->{$dayName}){
+
+                $startTime = Carbon::createFromTimeString($this->{$dayName . '_from'});
+                $endTime = Carbon::createFromTimeString($this->{$dayName . '_to'});
+                $period = $this->{$dayName .'_period'};
+
+                while ($startTime->lte($endTime)){
+                    array_push($appointments, [
+                        'interval' =>  $startTime->format('h:i A'),
+                        'available' =>  Reservation::where([['date', '=',  $today->format('Y-m-d')], ['time', '=' ,  $startTime->format('H:i:s')]])->doesntExist(),
+                    ]);
+                    $startTime->addMinutes($period);
+                }
+            }
+
+            if($today->format('Y-m-d') == Carbon::today()->format('Y-m-d')){
+                $dateFormat = 'Today';
+            }elseif ($today->format('Y-m-d') == Carbon::tomorrow()->format('Y-m-d')){
+                $dateFormat = 'Tomorrow';
+            }
+
+            array_push($cards, [
+                'doctor_id' => $this->id,
+                'date_format' => $dateFormat,
+                'date_value' => $today->format('Y-m-d'),
+                'appointments_list' => $appointments
+            ]);
+            $x = 1;
+        }
+
+        return $cards;
+    }
 }

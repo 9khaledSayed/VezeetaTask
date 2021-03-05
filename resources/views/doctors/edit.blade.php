@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.master')
 
 
 @section('content')
@@ -18,6 +18,18 @@
             </div>
         </div>
     </div>
+    @if ($errors->any())
+        <div class="alert alert-danger text-center" style="margin: 0 40px">
+            <div class="col-lg-4 mx-auto">
+                <h3>{{ __('Whoops! Something went wrong.') }}</h3>
+                {{--            <ul>--}}
+                @foreach ($errors->all() as $error)
+                    <h4>{{ $error }}</h4>
+                @endforeach
+                {{--            </ul>--}}
+            </div>
+        </div>
+    @endif
 
         @if(session('success'))
             <div class="alert alert-solid-success alert-bold fade show kt-margin-t-20 kt-margin-b-40" role="alert">

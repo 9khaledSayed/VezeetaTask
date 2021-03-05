@@ -15,8 +15,8 @@ class ReservationController extends Controller
         if ($request->ajax()){
             $reservations = Reservation::get()->map(function ($reservation){
                return [
-                 'doctor' => Doctor::get()->first()->name,
-                 'customer' => $reservation->customer_name ,
+                 'doctor' => $reservation->doctor->name,
+                 'customer' => $reservation->customer->name ,
                  'date' => $reservation->date ,
                  'time' => Carbon::createFromTimeString($reservation->time)->format('h:i A')  ,
                ];
@@ -26,13 +26,16 @@ class ReservationController extends Controller
         return view('reservations.index');
     }
 
-    public function store(Request $request, Faker $faker)
+    public function store(Request $request)
     {
+
+        $this->authorize('make-reservation');
         $time = Carbon::createFromTimeString($request->time);
-        if(Reservation::where([['date', '=',  $request->date], ['time', '=' ,  $time]])->doesntExist()){
+
+        if(Reservation::where([['date', '=',  $request->date], ['time', '=' ,  $time->format('H:i:s')]])->doesntExist()){
             Reservation::create([
-                'doctor_id' => Doctor::get()->first()->id,
-                'customer_name' => $faker->name,
+                'doctor_id' => $request->doctor_id,
+                'customer_id' => auth()->user()->id,
                 'date' => $request->date,
                 'time' => $time,
             ]);
