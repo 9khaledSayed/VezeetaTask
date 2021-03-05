@@ -79,7 +79,7 @@
                                     <div class="col-lg-9 col-xl-6">
                                         <div class="input-group">
                                             <div class="input-group-prepend"><span class="input-group-text"><i class="la la-phone"></i></span></div>
-                                            <input type="text"
+                                            <input type="number"
                                                    name="phone"
                                                    class="form-control @error('phone') is-invalid @enderror"
                                                    value="{{old('phone') ?? $doctor->phone}}"
@@ -130,7 +130,7 @@
                                     <div class="col-lg-9 col-xl-6">
                                         <div class="input-group">
                                             <div class="input-group-prepend"><span class="input-group-text"><i class="la la-money"></i></span></div>
-                                            <input type="text"
+                                            <input type="number"
                                                    name="price"
                                                    class="form-control @error('price') is-invalid @enderror"
                                                    value="{{old('price') ?? $doctor->price}}"
@@ -153,20 +153,6 @@
                                         @error('specialization')
                                         <span class="form-text text-muted">{{$message}}</span>
                                         @enderror
-                                    </div>
-                                </div>
-                                <div class="form-group row mb-2">
-                                    <div class="col-lg-3 m-auto">
-                                        <div class="kt-avatar kt-avatar--outline kt-avatar--circle m-auto" id="kt_user_avatar_3">
-                                            <div class="kt-avatar__holder" style="width: 120px;height: 120px; background-image: url({{asset('storage/avatars/' . $doctor->photo)}})"></div>
-                                            <label class="kt-avatar__upload" data-toggle="kt-tooltip" title="" data-original-title="Change avatar">
-                                                <i class="fa fa-pen"></i>
-                                                <input type="file" name="photo" accept=".png, .jpg, .jpeg">
-                                            </label>
-                                            <span class="kt-avatar__cancel" data-toggle="kt-tooltip" title="" data-original-title="Cancel avatar">
-                                                <i class="fa fa-times"></i>
-                                            </span>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
