@@ -32,15 +32,7 @@ class DoctorController extends Controller
     public function update(Request $request, Doctor $doctor)
     {
         $this->authorize('update-doctor-information');
-        $doctor->update($this->validator($request));
-
-        if(isset($request->photo)){
-            $fileExtension = '.' . $request->file('photo')->getClientOriginalExtension();
-            $fileName = date('mdYHis') . uniqid() . $fileExtension;
-            $request->file('photo')->storeAs('public/avatars/', $fileName);
-            $doctor->photo = $fileName;
-            $doctor->save();
-        }
+        $doctor->update($this->validator($request, $doctor->id));
 
         return redirect()->back()->with('success', 'true');
     }
@@ -132,7 +124,7 @@ class DoctorController extends Controller
 
 
 
-    public function validator(Request $request)
+    public function validator(Request $request, $id)
     {
         $request['saturday'] = $request->has('saturday');
         $request['sunday'] = $request->has('sunday');
@@ -145,6 +137,7 @@ class DoctorController extends Controller
 
 
         $rules = Doctor::$rules;
+        $rules['email'] = ($rules['email'] . ',email,' . $id);
         unset($rules['password']);
         return $request->validate($rules);
     }
