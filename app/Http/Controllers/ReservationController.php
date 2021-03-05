@@ -39,7 +39,7 @@ class ReservationController extends Controller
         $this->authorize('make-reservation');
         $time = Carbon::createFromTimeString($request->time);
 
-        if(Reservation::where([['date', '=',  $request->date], ['time', '=' ,  $time->format('H:i:s')]])->doesntExist()){
+        if(Reservation::where([['doctor_id', '=', $request->doctor_id], ['date', '=',  $request->date], ['time', '=' ,  $time->format('H:i:s')]])->doesntExist()){
             Reservation::create([
                 'doctor_id' => $request->doctor_id,
                 'customer_id' => auth()->user()->id,

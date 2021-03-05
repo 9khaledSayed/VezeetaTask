@@ -82,7 +82,7 @@ class Doctor extends Authenticatable
                 while ($startTime->lte($endTime)){
                     array_push($appointments, [
                         'interval' =>  $startTime->format('h:i A'),
-                        'available' =>  Reservation::where([['date', '=',  $today->format('Y-m-d')], ['time', '=' ,  $startTime->format('H:i:s')]])->doesntExist(),
+                        'available' =>  Reservation::where([['doctor_id', '=', $this->id], ['date', '=',  $today->format('Y-m-d')], ['time', '=' ,  $startTime->format('H:i:s')]])->doesntExist(),
                     ]);
                     $startTime->addMinutes($period);
                 }

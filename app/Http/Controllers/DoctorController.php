@@ -58,7 +58,7 @@ class DoctorController extends Controller
                     while ($startTime->lte($endTime)){
                         array_push($appointments, [
                             'interval' =>  $startTime->format('h:i A'),
-                            'available' =>  Reservation::where([['date', '=',  $nextTo->format('Y-m-d')], ['time', '=' ,  $startTime]])->doesntExist(),
+                            'available' =>  Reservation::where([['doctor_id', '=', $doctor->id],['date', '=',  $nextTo->format('Y-m-d')], ['time', '=' ,  $startTime]])->doesntExist(),
                         ]);
                         $startTime->addMinutes($period);
                     }
@@ -93,7 +93,7 @@ class DoctorController extends Controller
                     while ($startTime->lte($endTime)){
                         array_push($appointments, [
                             'interval' =>  $startTime->format('h:i A'),
-                            'available' =>  Reservation::where([['date', '=',  $previousTo->format('Y-m-d')], ['time', '=' ,  $startTime->format('H:i:s')]])->doesntExist(),
+                            'available' =>  Reservation::where([['doctor_id', '=', $doctor->id], ['date', '=',  $previousTo->format('Y-m-d')], ['time', '=' ,  $startTime->format('H:i:s')]])->doesntExist(),
                         ]);
                         $startTime->addMinutes($period);
                     }
