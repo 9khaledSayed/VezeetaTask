@@ -10,11 +10,6 @@ use Illuminate\Http\Request;
 class DoctorController extends Controller
 {
 
-//    public function __construct()
-//    {
-//        $this->middleware('');
-//    }
-
     public function index()
     {
         $doctors = Doctor::get();
