@@ -88,7 +88,7 @@ $(function () {
 
     $(document).on('click', '.more' ,function () {
         var table = $(this).parents('table:first');
-        table.find('.appointments-body tr:nth-child(n+7)').css('display', 'revert')
+        table.find(".appointments-body tr:nth-child(n+7)").css('display', 'revert')
         $(this).html('<th>hide</th>');
         $(this).attr('class','hide');
     })
@@ -123,7 +123,8 @@ $(function () {
                                                     </tr>';
                                 })
                             }else{
-                                appointments = '<tr >\
+                                appointments = '\
+                                    <tr>\
                                         <td>There is no appointments</td>\
                                     </tr>';
                             }
