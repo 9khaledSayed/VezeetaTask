@@ -116,7 +116,7 @@
         <div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--desktop kt-grid--ver-desktop kt-grid--hor-tablet-and-mobile">
 
             <!--begin::Aside-->
-            <div class="kt-grid__item kt-grid__item--order-tablet-and-mobile-2 kt-grid kt-grid--hor kt-login__aside" style="background-image: url({{asset('assets/media/bg/bg-4.jpg')}});">
+            <div class="kt-grid__item kt-grid__item--order-tablet-and-mobile-2 kt-grid kt-grid--hor kt-login__aside" style="background-image: url({{asset('https://image.freepik.com/free-photo/doctor-s-stethoscope-with-blue-background_23-2147652363.jpg')}});">
                 <div class="kt-grid__item">
                     <a href="#" class="kt-login__logo">
                         <img src="{{asset('assets/media/logos/logo-4.png')}}">
@@ -124,7 +124,7 @@
                 </div>
                 <div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--ver">
                     <div class="kt-grid__item kt-grid__item--middle mx-auto" >
-                        <h1 class="kt-login__title">{{__('Vezeeta')}}</h1>
+                        <h1 class="">{{__('Vezeeta')}}</h1>
                     </div>
                 </div>
                 <div class="kt-grid__item">
