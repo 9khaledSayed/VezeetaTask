@@ -183,6 +183,11 @@
                                         <tbody class="appointments-body">\
                                         ' + appointments + '\
                                         </tbody>\
+                                        <tfoot class="cursor-pointer">\
+                                            <tr class="more">\
+                                                <th>more</th>\
+                                            </tr>\
+                                        </tfoot>\
                                     </table>\
                                 </div>';
                                     appointments = '';
@@ -245,6 +250,11 @@
                                         <tbody class="appointments-body">\
                                         ' + appointments + '\
                                         </tbody>\
+                                        <tfoot class="cursor-pointer">\
+                                            <tr class="more">\
+                                                <th>more</th>\
+                                            </tr>\
+                                        </tfoot>\
                                     </table>\
                                 </div>';
                                 appointments = '';
